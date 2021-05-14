@@ -8,11 +8,11 @@ import Footer from './components/footer/footer.component';
 import Issues from './components/issues/issues.component';
 
 const App = () => (
-  <div>
+  <>
     <Header />
     <Issues />
     <Footer />
-  </div>
+  </>
 );
 
 export default App;

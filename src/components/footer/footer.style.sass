@@ -3,13 +3,15 @@
 footer
     display: flex
     justify-content: space-between
-    position: fixed
     bottom: 0
     width: 100%
     padding: 1.2rem
     align-items: flex-end
 
     .l-footer-content
+        position: fixed
+        bottom: 0
+        padding-bottom: 2.3rem
 
         .info
             max-width: 16rem
@@ -29,9 +31,17 @@ footer
             display: block
 
 .bookmarks
-            li 
-                font-weight: 400
+    position: fixed
+    bottom: 0
+    right: 0
+    padding-bottom: 2.3rem
+    padding-right: 1.2rem
+    li 
+        font-weight: 400
+        margin-bottom: 0.5rem
+    li:last-child
+        margin-bottom: 0
 
-                &:hover
-                    color: #4b4b4b
-                    cursor: pointer
+        &:hover
+            color: #4b4b4b
+            cursor: pointer
