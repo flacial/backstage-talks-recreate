@@ -9,7 +9,7 @@ import issue1 from '../../assets/backstagetalks_cover2016_n.png';
 
 // eslint-disable-next-line no-unused-vars
 const issuesReducer = (title, imgUrl, num) => (
-  <div className="issue" id={`issue${num}`}>
+  <div className={`issue issue${num}`}>
     <img src={imgUrl} alt="Issue" />
     <ul className="issue-detail">
       <li>

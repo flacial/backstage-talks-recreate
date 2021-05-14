@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -5,8 +6,9 @@ import React, { useEffect, useState, useRef } from 'react';
 
 import './footer.style.sass';
 import _ from 'lodash';
+import { withRouter } from 'react-router';
 
-const Footer = () => {
+const Footer = ({ history }) => {
   // eslint-disable-next-line no-unused-vars
   const [currentIssue, setCurrentIssue] = useState(0);
   const [scrollCount, setScrollCount] = useState(5);
@@ -21,7 +23,6 @@ const Footer = () => {
   const bookmarkHandler = (value) => {
     setCurrentIssue(value);
     setScrollCount(value);
-    console.log('bookmarkHandler: 23');
   };
 
   const wheelHandler = (e) => {
@@ -45,96 +46,165 @@ const Footer = () => {
     });
   };
 
-  useEffect(() => {
-    window.addEventListener('wheel', _.debounce(wheelHandler, 200));
-  }, []);
+  const setHash = (hash) => {
+    window.history.pushState('', '', `#issue${hash}`);
+  };
 
-  const translateHandler = (value) => {
-    console.log('Translate value: ', value);
-    const issue = document.querySelector(`#issue${value}`);
+  const translateHandler = (value, isLink) => {
+    const issue = document.querySelector(`.issue${value}`);
     const issuesContainer = document.querySelector('.issues-container');
-    // if (scrollCount > 0) {
-    //   console.log('Down');
-    //   issuesContainer.style.transform =
-    // `translate3d(0, -${issue.clientHeight - issue.clientHeight}px, 0)`;
-    // }
-    console.log(deltaY);
+
+    if (isLink) {
+      switch (parseInt(value, 10)) {
+        case 5:
+          issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
+          console.log(5);
+          break;
+        case 4:
+          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight}px, 0)`;
+          console.log(4);
+          break;
+        case 3:
+          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 2}px, 0)`;
+          console.log(3);
+          break;
+        case 2:
+          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 3}px, 0)`;
+          console.log(2);
+          break;
+        case 1:
+          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 4}px, 0)`;
+          console.log(1);
+          break;
+        default:
+          break;
+      }
+      return;
+    }
+
     if (deltaY > 0) {
-      issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * (value - (value - 1))}px, 0)`;
-      console.log(issue.clientHeight * (value - (value - 1)), issue.clientHeight, value);
-      // if (scrollCount === 4) {
-      // } else {
-      //   if (scrollCount !== 1 && scrollCount > 0) {
-      //     issuesContainer.style.transform =
-      // `translate3d(0, -${issue.clientHeight * value}px, 0)`;
-      //     console.log('Down');
-      //     console.log(issue.clientHeight * value);
-      //     return;
-      //   }
-      //   return;
-      // }
-      // return;
+      console.log('Down');
+      switch (value) {
+        case 4:
+          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight}px, 0)`;
+          setHash(4);
+          break;
+        case 3:
+          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 2}px, 0)`;
+          setHash(3);
+          break;
+        case 2:
+          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 3}px, 0)`;
+          setHash(2);
+          break;
+        case 1:
+          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 4}px, 0)`;
+          setHash(1);
+          break;
+        default:
+          break;
+      }
     }
 
     if (deltaY < 0) {
-      if (scrollCount !== 5 && scrollCount < 5) {
-        issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight - issue.clientHeight}px, 0)`;
-        console.log('Up');
+      console.log('Up');
+      switch (value) {
+        case 5:
+          issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
+          setHash(5);
+          console.log('Hi');
+          break;
+        case 4:
+          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight}px, 0)`;
+          setHash(4);
+          break;
+        case 3:
+          issuesContainer.style.transform = `translate3d(0, ${issue.clientHeight - (issue.clientHeight * 3)}px, 0)`;
+          setHash(3);
+          break;
+        case 2:
+          issuesContainer.style.transform = `translate3d(0, ${issue.clientHeight - (issue.clientHeight * 4)}px, 0)`;
+          setHash(2);
+          break;
+        default:
+          break;
       }
     }
   };
 
   useEffect(() => {
+    window.addEventListener('wheel', _.debounce(wheelHandler, 200));
+    document.querySelectorAll('.bookmarks > li').forEach((el) => el.addEventListener('click', (e) => {
+      e.preventDefault();
+      translateHandler(e.target.hash[e.target.hash.length - 1], true);
+      window.history.pushState('', '', e.target.hash);
+    }));
+  }, []);
+
+  useEffect(() => {
     switch (scrollCount) {
+      case 5:
+        document.body.style.background = '#00c1b5';
+        translateHandler(5);
+        bookmarkHandler(5);
+        break;
       case 4:
-        console.log('issue 4 translate');
-        // document.body.style.background = '#ff651a';
-        // bm4.current.click();
+        document.body.style.background = '#ff651a';
         translateHandler(4);
+        bookmarkHandler(4);
         break;
       case 3:
-        // document.body.style.background = ' #ffbe00';
-        // bm3.current.click();
+        document.body.style.background = ' #ffbe00';
         translateHandler(3);
+        bookmarkHandler(3);
         break;
       case 2:
-        // document.body.style.background = '#1d3fbb';
-        // bm2.current.click();
+        document.body.style.background = '#1d3fbb';
         translateHandler(2);
+        bookmarkHandler(2);
         break;
       case 1:
-        // document.body.style.background = '#e30512';
-        // bm1.current.click();
+        document.body.style.background = '#e30512';
         translateHandler(1);
+        bookmarkHandler(1);
         break;
       default:
-        // document.body.style.background = '#00c1b5';
-        // bm5.current.click();
-        translateHandler(5);
         break;
     }
     console.log(scrollCount);
   }, [scrollCount]);
 
   useEffect(() => {
-    switch (currentIssue) {
-      case 4:
+    switch (history.location.hash) {
+      case '#issue5':
+        document.body.style.background = '#00c1b5';
+        translateHandler(5, true);
+        bookmarkHandler(5);
+        break;
+      case '#issue4':
         document.body.style.background = '#ff651a';
+        translateHandler(4, true);
+        bookmarkHandler(4);
         break;
-      case 3:
+      case '#issue3':
         document.body.style.background = ' #ffbe00';
+        translateHandler(3, true);
+        bookmarkHandler(3);
         break;
-      case 2:
+      case '#issue2':
         document.body.style.background = '#1d3fbb';
+        translateHandler(2, true);
+        bookmarkHandler(2);
         break;
-      case 1:
+      case '#issue1':
         document.body.style.background = '#e30512';
+        translateHandler(1, true);
+        bookmarkHandler(1);
         break;
       default:
-        document.body.style.background = '#00c1b5';
         break;
     }
-  }, [currentIssue]);
+  }, [history.location.hash]);
 
   return (
     <footer>
@@ -160,7 +230,7 @@ const Footer = () => {
       </div>
       <ul className="bookmarks">
         <li>
-          <a href="#issue5" ref={bm5} onClick={() => { document.querySelector('.issues-container').style.transform = 'translate3d(0, 0, 0)'; bookmarkHandler(5); }}>
+          <a href="#issue5" ref={bm5} onClick={() => bookmarkHandler(5)}>
             Issue #5
           </a>
         </li>
@@ -189,4 +259,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default withRouter(Footer);
