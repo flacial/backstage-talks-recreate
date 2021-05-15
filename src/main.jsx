@@ -6,7 +6,7 @@ import App from './App';
 
 ReactDOM.render(
   // eslint-disable-next-line react/jsx-filename-extension
-  <BrowserRouter>
+  <BrowserRouter base="/backstage-talks-recreate">
     <React.StrictMode>
       <App />
     </React.StrictMode>

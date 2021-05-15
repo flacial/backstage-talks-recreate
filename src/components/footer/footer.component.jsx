@@ -132,24 +132,49 @@ const Footer = ({ history }) => {
     }
   };
 
-  useEffect(() => {
-    // window.addEventListener('wheel', _.debounce(wheelHandler, 200));
-    document.querySelectorAll('.bookmarks > li').forEach((el) => el.addEventListener('click', (e) => {
-      e.preventDefault();
-      translateHandler(e.target.hash[e.target.hash.length - 1], true);
-      window.history.pushState('', '', e.target.hash);
-    }));
+  const isMediaQuery = (pixels) => {
+    const x = window.matchMedia(`(max-width: ${pixels}px)`);
+    return x.matches;
+  };
 
-    window.addEventListener('scroll', _.debounce(() => {
-      // const scrollPos = window.scrollY ||
-      // window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
-      // const value = Math.abs(parseInt(scrollPos -
-      //  (document.querySelector('.issue5').clientHeight / 2), 10));
-      // console.log(Math.abs(parseInt(scrollPos -
-      //  (document.querySelector('.issue5').clientHeight / 2), 10)));
-      // console.log('scrollPos', scrollPos);
-      // console.log(value <= 20 && value > 15);
+  useEffect(() => {
+    const debounceWheel = _.debounce(wheelHandler, 200);
+
+    if (!isMediaQuery(1000)) {
+      console.log('true');
+      window.addEventListener('wheel', debounceWheel);
+
+      const bookmarks = document.querySelectorAll('.bookmarks > li');
+      bookmarks.forEach((el) => el.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.target.style.textShadow = '-0.8px 0 0px';
+        bookmarks.forEach((ele) => {
+          if (ele.children[0].hash !== e.target.hash) {
+            ele.children[0].style.textShadow = 'inherit';
+          }
+        });
+        translateHandler(e.target.hash[e.target.hash.length - 1], true);
+        window.history.pushState('', '', e.target.hash);
+      }));
+    }
+
+    window.addEventListener('resize', _.debounce(() => {
+      if (isMediaQuery(1000)) {
+        document.querySelector('.issue5').scrollIntoView();
+        window.removeEventListener('wheel', debounceWheel);
+      }
     }, 200));
+
+    // window.addEventListener('scroll', _.debounce(() => {
+    //   // const scrollPos = window.scrollY ||
+    //   // window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
+    //   // const value = Math.abs(parseInt(scrollPos -
+    //   //  (document.querySelector('.issue5').clientHeight / 2), 10));
+    //   // console.log(Math.abs(parseInt(scrollPos -
+    //   //  (document.querySelector('.issue5').clientHeight / 2), 10)));
+    //   // console.log('scrollPos', scrollPos);
+    //   // console.log(value <= 20 && value > 15);
+    // }, 200));
   }, []);
 
   useEffect(() => {
@@ -222,9 +247,6 @@ const Footer = ({ history }) => {
       <div className="l-footer-content">
         <div className="info">
           Backstage Talks is a magazine
-          {' '}
-          <br />
-          {' '}
           of casual, but in depth dialogues on design
           and business.
           Our decisions shape and influence this complex world—to

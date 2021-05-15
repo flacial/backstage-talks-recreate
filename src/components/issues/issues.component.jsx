@@ -46,9 +46,11 @@ const isScrolledIntoView = (el, firstValue, secondValue, isNeed) => {
     return elemTop < window.innerHeight
     && elemBottom >= 0 && elemTop <= -220 && elemTop >= -270;
   }
-  return elemTop < window.innerHeight
-   && elemBottom >= 0 && window.innerHeight - Math.abs(elemTop) >= firstValue
-   && window.innerHeight - elemTop <= secondValue;
+  // return elemTop < window.innerHeight
+  //  && elemBottom >= 0 && window.innerHeight - Math.abs(elemTop) >= firstValue
+  //  && window.innerHeight - elemTop <= secondValue;
+
+  return (elemTop <= 350 && elemTop >= -20);
 };
 
 const Issues = () => {
@@ -60,23 +62,27 @@ const Issues = () => {
 
   const changeIssueBackground = () => {
     switch (true) {
-      case isScrolledIntoView(issue5Ref, 300, 360):
+      case isScrolledIntoView(issue5Ref, 290, 360):
         document.body.style.background = '#00c1b5';
+        // document.body.style.background = '#ff651a';
         console.log('worked 5');
         break;
-      case isScrolledIntoView(issue4Ref, 300, 360):
+      case isScrolledIntoView(issue4Ref, 290, 360):
         document.body.style.background = '#ff651a';
+        // document.body.style.background = ' #ffbe00';
         console.log('worked 4');
         break;
-      case isScrolledIntoView(issue3Ref, 300, 360):
+      case isScrolledIntoView(issue3Ref, 290, 360):
         document.body.style.background = ' #ffbe00';
+        // document.body.style.background = '#1d3fbb';
         console.log('worked 3');
         break;
-      case isScrolledIntoView(issue2Ref, 300, 360):
+      case isScrolledIntoView(issue2Ref, 290, 360):
         document.body.style.background = '#1d3fbb';
+        // document.body.style.background = '#e30512';
         console.log('worked 2');
         break;
-      case isScrolledIntoView(issue1Ref, 300, 360):
+      case isScrolledIntoView(issue1Ref, 290, 360):
         document.body.style.background = '#e30512';
         console.log('worked 1');
         break;
@@ -85,31 +91,31 @@ const Issues = () => {
         break;
     }
 
-    switch (true) {
-      case isScrolledIntoView(issue5Ref, 900, 930, true):
-        document.body.style.background = '#00c1b5';
-        console.log('worked 5 2');
-        break;
-      case isScrolledIntoView(issue4Ref, 900, 930, true):
-        document.body.style.background = '#ff651a';
-        console.log('worked 4 2');
-        break;
-      case isScrolledIntoView(issue3Ref, 900, 930, true):
-        document.body.style.background = ' #ffbe00';
-        console.log('worked 3 2');
-        break;
-      case isScrolledIntoView(issue2Ref, 900, 930, true):
-        document.body.style.background = '#1d3fbb';
-        console.log('worked 2 2');
-        break;
-      case isScrolledIntoView(issue1Ref, 900, 930, true):
-        document.body.style.background = '#e30512';
-        console.log('worked 1 2');
-        break;
-      default:
-        console.log('Nothing');
-        break;
-    }
+    // switch (true) {
+    //   case isScrolledIntoView(issue5Ref, 900, 930, true):
+    //     document.body.style.background = '#00c1b5';
+    //     console.log('worked 5 2');
+    //     break;
+    //   // case isScrolledIntoView(issue4Ref, 900, 930, true):
+    //   //   document.body.style.background = '#ff651a';
+    //   //   console.log('worked 4 2');
+    //   //   break;
+    //   // case isScrolledIntoView(issue3Ref, 900, 930, true):
+    //   //   document.body.style.background = ' #ffbe00';
+    //   //   console.log('worked 3 2');
+    //   //   break;
+    //   // case isScrolledIntoView(issue2Ref, 900, 930, true):
+    //   //   document.body.style.background = '#1d3fbb';
+    //   //   console.log('worked 2 2');
+    //   //   break;
+    //   // case isScrolledIntoView(issue1Ref, 900, 930, true):
+    //   //   document.body.style.background = '#e30512';
+    //   //   console.log('worked 1 2');
+    //   //   break;
+    //   default:
+    //     console.log('Nothing');
+    //     break;
+    // }
   };
 
   useEffect(() => {

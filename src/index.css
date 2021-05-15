@@ -24,10 +24,6 @@ code {
     overflow: visible;
   }
 
-  .issues-container {
-    transform: none !important;
-  }
-
   header {
     position: static !important;
   }
