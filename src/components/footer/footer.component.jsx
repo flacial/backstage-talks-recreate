@@ -133,12 +133,23 @@ const Footer = ({ history }) => {
   };
 
   useEffect(() => {
-    window.addEventListener('wheel', _.debounce(wheelHandler, 200));
+    // window.addEventListener('wheel', _.debounce(wheelHandler, 200));
     document.querySelectorAll('.bookmarks > li').forEach((el) => el.addEventListener('click', (e) => {
       e.preventDefault();
       translateHandler(e.target.hash[e.target.hash.length - 1], true);
       window.history.pushState('', '', e.target.hash);
     }));
+
+    window.addEventListener('scroll', _.debounce(() => {
+      // const scrollPos = window.scrollY ||
+      // window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
+      // const value = Math.abs(parseInt(scrollPos -
+      //  (document.querySelector('.issue5').clientHeight / 2), 10));
+      // console.log(Math.abs(parseInt(scrollPos -
+      //  (document.querySelector('.issue5').clientHeight / 2), 10)));
+      // console.log('scrollPos', scrollPos);
+      // console.log(value <= 20 && value > 15);
+    }, 200));
   }, []);
 
   useEffect(() => {
