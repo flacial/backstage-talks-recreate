@@ -8,10 +8,10 @@ import './footer.style.sass';
 import _ from 'lodash';
 import { withRouter } from 'react-router';
 
-const Footer = ({ history }) => {
+const Footer = ({ history, scrollCount, setScrollCount }) => {
   // eslint-disable-next-line no-unused-vars
   const [currentIssue, setCurrentIssue] = useState(0);
-  const [scrollCount, setScrollCount] = useState(5);
+  // const [scrollCount, setScrollCount] = useState(5);
   const [deltaY, setDeltaY] = useState(null);
 
   const bm1 = useRef(null);
@@ -28,6 +28,7 @@ const Footer = ({ history }) => {
   const wheelHandler = (e) => {
     setDeltaY(e.deltaY);
     setScrollCount((prevState) => {
+      console.log(31);
       if (e.deltaY > 0) {
         if (prevState !== 1 && prevState > 0) {
           return prevState - 1;
@@ -65,15 +66,21 @@ const Footer = ({ history }) => {
           console.log(4);
           break;
         case 3:
-          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 2}px, 0)`;
+          issuesContainer.style.transform = `translate3d(0, -${
+            issue.clientHeight * 2
+          }px, 0)`;
           console.log(3);
           break;
         case 2:
-          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 3}px, 0)`;
+          issuesContainer.style.transform = `translate3d(0, -${
+            issue.clientHeight * 3
+          }px, 0)`;
           console.log(2);
           break;
         case 1:
-          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 4}px, 0)`;
+          issuesContainer.style.transform = `translate3d(0, -${
+            issue.clientHeight * 4
+          }px, 0)`;
           console.log(1);
           break;
         default:
@@ -90,15 +97,21 @@ const Footer = ({ history }) => {
           setHash(4);
           break;
         case 3:
-          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 2}px, 0)`;
+          issuesContainer.style.transform = `translate3d(0, -${
+            issue.clientHeight * 2
+          }px, 0)`;
           setHash(3);
           break;
         case 2:
-          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 3}px, 0)`;
+          issuesContainer.style.transform = `translate3d(0, -${
+            issue.clientHeight * 3
+          }px, 0)`;
           setHash(2);
           break;
         case 1:
-          issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight * 4}px, 0)`;
+          issuesContainer.style.transform = `translate3d(0, -${
+            issue.clientHeight * 4
+          }px, 0)`;
           setHash(1);
           break;
         default:
@@ -119,11 +132,15 @@ const Footer = ({ history }) => {
           setHash(4);
           break;
         case 3:
-          issuesContainer.style.transform = `translate3d(0, ${issue.clientHeight - (issue.clientHeight * 3)}px, 0)`;
+          issuesContainer.style.transform = `translate3d(0, ${
+            issue.clientHeight - issue.clientHeight * 3
+          }px, 0)`;
           setHash(3);
           break;
         case 2:
-          issuesContainer.style.transform = `translate3d(0, ${issue.clientHeight - (issue.clientHeight * 4)}px, 0)`;
+          issuesContainer.style.transform = `translate3d(0, ${
+            issue.clientHeight - issue.clientHeight * 4
+          }px, 0)`;
           setHash(2);
           break;
         default:
@@ -141,7 +158,7 @@ const Footer = ({ history }) => {
     const debounceWheel = _.debounce(wheelHandler, 200);
 
     if (!isMediaQuery(1000)) {
-      console.log('true');
+      console.log('true media query 1000');
       window.addEventListener('wheel', debounceWheel);
 
       const bookmarks = document.querySelectorAll('.bookmarks > li');
@@ -158,12 +175,18 @@ const Footer = ({ history }) => {
       }));
     }
 
-    window.addEventListener('resize', _.debounce(() => {
-      if (isMediaQuery(1000)) {
-        document.querySelector('.issue5').scrollIntoView();
-        window.removeEventListener('wheel', debounceWheel);
-      }
-    }, 200));
+    window.addEventListener(
+      'resize',
+      _.debounce(() => {
+        if (isMediaQuery(1000)) {
+          document.querySelector(`.issue${scrollCount}`).scrollIntoView();
+          console.log(scrollCount);
+          window.removeEventListener('wheel', debounceWheel);
+        } else {
+          document.querySelector(`.issue${scrollCount}`).scrollIntoView();
+        }
+      }, 200),
+    );
 
     // window.addEventListener('scroll', _.debounce(() => {
     //   // const scrollPos = window.scrollY ||
@@ -176,6 +199,8 @@ const Footer = ({ history }) => {
     //   // console.log(value <= 20 && value > 15);
     // }, 200));
   }, []);
+
+  useEffect(() => console.log(scrollCount), [scrollCount]);
 
   useEffect(() => {
     switch (scrollCount) {
@@ -207,34 +232,59 @@ const Footer = ({ history }) => {
       default:
         break;
     }
-    console.log(scrollCount);
+    // console.log(scrollCount);
   }, [scrollCount]);
 
   useEffect(() => {
     switch (history.location.hash) {
       case '#issue5':
         document.body.style.background = '#00c1b5';
-        translateHandler(5, true);
+        if (isMediaQuery(1000)) {
+          console.log('issue5 media q');
+          document.querySelector('.issue5').scrollIntoView();
+        } else {
+          translateHandler(5, true);
+        }
         bookmarkHandler(5);
         break;
       case '#issue4':
         document.body.style.background = '#ff651a';
-        translateHandler(4, true);
+        if (isMediaQuery(1000)) {
+          console.log('issue4 media q');
+          document.querySelector('.issue4').scrollIntoView();
+        } else {
+          translateHandler(4, true);
+        }
         bookmarkHandler(4);
         break;
       case '#issue3':
         document.body.style.background = ' #ffbe00';
-        translateHandler(3, true);
+        if (isMediaQuery(1000)) {
+          console.log('issue3 media q');
+          document.querySelector('.issue3').scrollIntoView();
+        } else {
+          translateHandler(3, true);
+        }
         bookmarkHandler(3);
         break;
       case '#issue2':
         document.body.style.background = '#1d3fbb';
-        translateHandler(2, true);
+        if (isMediaQuery(1000)) {
+          console.log('issue2 media q');
+          document.querySelector('.issue2').scrollIntoView();
+        } else {
+          translateHandler(3, true);
+        }
         bookmarkHandler(2);
         break;
       case '#issue1':
         document.body.style.background = '#e30512';
-        translateHandler(1, true);
+        if (isMediaQuery(1000)) {
+          console.log('issue1 media q');
+          document.querySelector('.issue1').scrollIntoView();
+        } else {
+          translateHandler(1, true);
+        }
         bookmarkHandler(1);
         break;
       default:
@@ -246,11 +296,9 @@ const Footer = ({ history }) => {
     <footer>
       <div className="l-footer-content">
         <div className="info">
-          Backstage Talks is a magazine
-          of casual, but in depth dialogues on design
-          and business.
-          Our decisions shape and influence this complex world—to
-          have a chance to make the right ones, we need to talk.
+          Backstage Talks is a magazine of casual, but in depth dialogues on
+          design and business. Our decisions shape and influence this complex
+          world—to have a chance to make the right ones, we need to talk.
         </div>
         <p className="credits">
           © 2021

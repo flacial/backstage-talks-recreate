@@ -41,7 +41,6 @@ const isScrolledIntoView = (el, firstValue, secondValue, isNeed) => {
 
   // 355
 
-  // Only completely visible elements return true:
   if (isNeed) {
     return elemTop < window.innerHeight
     && elemBottom >= 0 && elemTop <= -220 && elemTop >= -270;
@@ -53,7 +52,7 @@ const isScrolledIntoView = (el, firstValue, secondValue, isNeed) => {
   return (elemTop <= 350 && elemTop >= -20);
 };
 
-const Issues = () => {
+const Issues = ({ scrollCount, setScrollCount }) => {
   const issue5Ref = useRef();
   const issue4Ref = useRef();
   const issue3Ref = useRef();
@@ -65,25 +64,30 @@ const Issues = () => {
       case isScrolledIntoView(issue5Ref, 290, 360):
         document.body.style.background = '#00c1b5';
         // document.body.style.background = '#ff651a';
+        setScrollCount(5);
         console.log('worked 5');
         break;
       case isScrolledIntoView(issue4Ref, 290, 360):
         document.body.style.background = '#ff651a';
         // document.body.style.background = ' #ffbe00';
+        setScrollCount(4);
         console.log('worked 4');
         break;
       case isScrolledIntoView(issue3Ref, 290, 360):
         document.body.style.background = ' #ffbe00';
         // document.body.style.background = '#1d3fbb';
+        setScrollCount(3);
         console.log('worked 3');
         break;
       case isScrolledIntoView(issue2Ref, 290, 360):
         document.body.style.background = '#1d3fbb';
         // document.body.style.background = '#e30512';
+        setScrollCount(2);
         console.log('worked 2');
         break;
       case isScrolledIntoView(issue1Ref, 290, 360):
         document.body.style.background = '#e30512';
+        setScrollCount(1);
         console.log('worked 1');
         break;
       default:
@@ -138,6 +142,10 @@ const Issues = () => {
       changeIssueBackground();
     }, 200));
   }, []);
+
+  useEffect(() => {
+    console.log(scrollCount);
+  }, [scrollCount]);
 
   return (
     <div className="issues-container">
