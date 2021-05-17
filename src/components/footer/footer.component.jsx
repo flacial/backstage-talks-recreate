@@ -10,11 +10,7 @@ import { withRouter } from 'react-router';
 import isMediaQuery from '../../utils/isMediaQuery';
 
 const Footer = ({ history, scrollCount, setScrollCount }) => {
-  // eslint-disable-next-line no-unused-vars
-  const [currentIssue, setCurrentIssue] = useState(0);
-  // const [scrollCount, setScrollCount] = useState(5);
   const [deltaY, setDeltaY] = useState(null);
-  // const [mediaQuery1000, setMediaQuery1000] = useState(isMediaQuery(1000));
 
   const bm1 = useRef(null);
   const bm2 = useRef(null);
@@ -28,7 +24,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
   scrollCountRef.current = scrollCount;
 
   const bookmarkHandler = (value) => {
-    setCurrentIssue(value);
     setScrollCount(value);
   };
 
@@ -46,7 +41,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
         if (prevState !== 5 && prevState < 5) {
           return prevState + 1;
         }
-        console.log('e.deltay Y false');
         return 5;
       }
 
@@ -60,7 +54,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
 
   const bookmarkColorChanger = (num) => {
     bookmarks.forEach((ele) => {
-      console.log(ele.children[0].hash[ele.children[0].hash.length - 1], `${num}`);
       if (ele.children[0].hash[ele.children[0].hash.length - 1] !== `${num}`) {
         ele.children[0].style.textShadow = 'inherit';
       } else {
@@ -79,33 +72,33 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
         case 5:
           issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
           transition();
-          console.log(5);
+          bookmarkColorChanger(5);
           break;
         case 4:
+          bookmarkColorChanger(4);
           issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight}px, 0)`;
           transition();
-          console.log(4);
           break;
         case 3:
+          bookmarkColorChanger(3);
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 2
           }px, 0)`;
           transition();
-          console.log(3);
           break;
         case 2:
+          bookmarkColorChanger(2);
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 3
           }px, 0)`;
           transition();
-          console.log(2);
           break;
         case 1:
+          bookmarkColorChanger(1);
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 4
           }px, 0)`;
           transition();
-          console.log(1);
           break;
         default:
           break;
@@ -116,6 +109,12 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
     if (deltaY > 0) {
       console.log('Down');
       switch (value) {
+        case 5:
+          issuesContainer.style.transform = 'translate3d(0, 0, 0)';
+          setHash(5);
+          transition();
+          bookmarkColorChanger(5);
+          break;
         case 4:
           issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight}px, 0)`;
           setHash(4);
@@ -155,7 +154,7 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       console.log('Up');
       switch (value) {
         case 5:
-          issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
+          issuesContainer.style.transform = 'translate3d(0, 0, 0)';
           transition();
           bookmarkColorChanger(5);
           setHash(5);
@@ -182,62 +181,57 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
           bookmarkColorChanger(2);
           setHash(2);
           break;
+        case 1:
+          setHash(1);
+          break;
         default:
           break;
       }
     }
   };
 
-  // let debounceTimeVar = true;
-  // const debounceTime = () => {
-  //   console.log('debounceTimer: ', debounceTimeVar);
-  //   if (debounceTimeVar) {
-  //     console.log('debounceTimer true: ', debounceTimeVar);
-  //     debounceTimeVar = false;
-  //     return 100;
-  //   }
-  //   console.log('debounceTimer false: ', debounceTimeVar);
-  //   debounceTimeVar = true;
-  //   return 200;
-  // };
-
   const WindowWidth = window.innerWidth;
 
   useEffect(() => {
+    const issuesContainer = document.querySelector('.issues-container');
+
     const debounceWheel = _.throttle(wheelHandler, 600, {
       leading: true,
       trailing: false,
     });
 
     if (!isMediaQuery(1000)) {
+      // ANCHOR wheel event
       window.addEventListener('wheel', debounceWheel);
 
-      bookmarks.forEach((el) => el.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.target.style.textShadow = '-0.8px 0 0';
-        bookmarks.forEach((ele) => {
-          if (ele.children[0].hash !== e.target.hash) {
-            ele.children[0].style.textShadow = 'inherit';
-          }
-        });
-        translateHandler(e.target.hash[e.target.hash.length - 1], true);
-        window.history.pushState('', '', e.target.hash);
-      }));
+      // bookmarks.forEach((el) => el.addEventListener('click', (e) => {
+      //   console.log('bookmark event');
+      //   e.preventDefault();
+      //   e.target.style.textShadow = '-0.8px 0 0';
+      //   bookmarks.forEach((ele) => {
+      //     if (ele.children[0].hash !== e.target.hash) {
+      //       ele.children[0].style.textShadow = 'inherit';
+      //     }
+      //   });
+      //   translateHandler(e.target.hash[e.target.hash.length - 1], true);
+      //   console.log('TranslateHandler ran');
+      //   window.history.pushState('', '', e.target.hash);
+      // }));
+    } else {
+      issuesContainer.classList.add('disabled-wheel');
     }
 
+    // ANCHOR resize event
     window.addEventListener(
       'resize',
       _.debounce(() => {
         const issue2 = document.querySelector('.issue2');
-        const issuesContainer = document.querySelector('.issues-container');
 
-        console.log(scrollCountRef.current);
         if (isMediaQuery(1000)) {
           if (WindowWidth !== window.innerWidth) {
             issuesContainer.style.transition = 'none';
             issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
             document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
-            alert('RESIZE 1', scrollCountRef.current);
             window.removeEventListener('wheel', debounceWheel);
             issuesContainer.classList.add('disabled-wheel');
           }
@@ -246,33 +240,33 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
             case 5:
               document.querySelector(`.issue${scrollCount}`).scrollIntoView();
               issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
-              console.log(555555);
+              // console.log(555555);
               break;
             case 4:
               document.querySelector(`.issue${scrollCount}`).scrollIntoView();
               issuesContainer.style.transform = `translate3d(0, -${issue2.clientHeight}px, 0)`;
-              console.log(444444);
+              // console.log(444444);
               break;
             case 3:
               document.querySelector(`.issue${scrollCount}`).scrollIntoView();
               issuesContainer.style.transform = `translate3d(0, -${
                 issue2.clientHeight * 2
               }px, 0)`;
-              console.log(333333);
+              // console.log(333333);
               break;
             case 2:
               document.querySelector(`.issue${scrollCount}`).scrollIntoView();
               issuesContainer.style.transform = `translate3d(0, -${
                 issue2.clientHeight * 3
               }px, 0)`;
-              console.log(222222);
+              // console.log(222222);
               break;
             case 1:
               document.querySelector(`.issue${scrollCount}`).scrollIntoView();
               issuesContainer.style.transform = `translate3d(0, -${
                 issue2.clientHeight * 4
               }px, 0)`;
-              console.log(111111);
+              // console.log(111111);
               break;
             default:
               break;
@@ -282,14 +276,10 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
             window.addEventListener('wheel', debounceWheel);
             issuesContainer.classList.remove('disabled-wheel');
           }
-
-          console.log('RESIZE 2', scrollCountRef.current);
         }
       }, 200),
     );
   }, []);
-
-  useEffect(() => console.log(scrollCount), [scrollCount]);
 
   useEffect(() => {
     if (!isMediaQuery(1000)) {
@@ -331,7 +321,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       case '#issue5':
         document.body.style.background = '#00c1b5';
         if (isMediaQuery(1000)) {
-          console.log('issue5 media q');
           document.querySelector('.issue5').scrollIntoView();
         } else {
           translateHandler(5, true);
@@ -341,7 +330,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       case '#issue4':
         document.body.style.background = '#ff651a';
         if (isMediaQuery(1000)) {
-          console.log('issue4 media q');
           document.querySelector('.issue4').scrollIntoView();
         } else {
           translateHandler(4, true);
@@ -351,7 +339,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       case '#issue3':
         document.body.style.background = ' #ffbe00';
         if (isMediaQuery(1000)) {
-          console.log('issue3 media q');
           document.querySelector('.issue3').scrollIntoView();
         } else {
           translateHandler(3, true);
@@ -361,7 +348,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       case '#issue2':
         document.body.style.background = '#1d3fbb';
         if (isMediaQuery(1000)) {
-          console.log('issue2 media q');
           document.querySelector('.issue2').scrollIntoView();
         } else {
           translateHandler(2, true);
@@ -371,7 +357,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       case '#issue1':
         document.body.style.background = '#e30512';
         if (isMediaQuery(1000)) {
-          console.log('issue1 media q');
           document.querySelector('.issue1').scrollIntoView();
         } else {
           translateHandler(1, true);
@@ -398,6 +383,9 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
         </p>
         <a href="#" className="policy">
           Privacy Policy
+        </a>
+        <a className="contact-link" href="info@backstagetalks.com">
+          Contact
         </a>
       </div>
       <ul className="bookmarks">

@@ -5,7 +5,7 @@ import './header.style.sass';
 const Header = () => (
   <header>
     <img src={imgUrl} alt="Logo" />
-    <a href="info@backstagetalks.com">
+    <a className="contact-link" href="info@backstagetalks.com">
       Contact
     </a>
   </header>

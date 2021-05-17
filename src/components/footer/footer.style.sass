@@ -13,6 +13,9 @@ footer
         bottom: 0
         padding-bottom: 2.3rem
 
+        .contact-link
+            display: none
+
         .info
             max-width: 16rem
             line-height: 1.5
@@ -29,6 +32,7 @@ footer
         .policy 
             margin-top: 2rem
             display: block
+            margin-bottom: 2rem
 
 .bookmarks
     position: fixed
@@ -72,8 +76,19 @@ footer
 @media screen and ( max-width: 440px )
     .issue 
         height: auto !important
-@media screen and ( max-width: 400px )
     header
         a
-            position: absolute
-            bottom: 0
+            display: none
+
+    .l-footer-content
+
+        .contact-link
+            display: block !important
+
+@media screen and ( max-width: 340px )
+    header
+        img
+            max-width: 100% !important
+    .issue
+        img
+            margin-bottom: 0.8rem
