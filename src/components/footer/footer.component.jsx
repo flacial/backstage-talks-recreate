@@ -7,18 +7,23 @@ import React, { useEffect, useState, useRef } from 'react';
 import './footer.style.sass';
 import _ from 'lodash';
 import { withRouter } from 'react-router';
+import { isMediaQuery } from '../../utils/isMediaQuery';
 
 const Footer = ({ history, scrollCount, setScrollCount }) => {
   // eslint-disable-next-line no-unused-vars
   const [currentIssue, setCurrentIssue] = useState(0);
   // const [scrollCount, setScrollCount] = useState(5);
   const [deltaY, setDeltaY] = useState(null);
+  // const [mediaQuery1000, setMediaQuery1000] = useState(isMediaQuery(1000));
 
   const bm1 = useRef(null);
   const bm2 = useRef(null);
   const bm3 = useRef(null);
   const bm4 = useRef(null);
   const bm5 = useRef(null);
+
+  const scrollCountRef = useRef({});
+  scrollCountRef.current = scrollCount;
 
   const bookmarkHandler = (value) => {
     setCurrentIssue(value);
@@ -28,7 +33,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
   const wheelHandler = (e) => {
     setDeltaY(e.deltaY);
     setScrollCount((prevState) => {
-      console.log(31);
       if (e.deltaY > 0) {
         if (prevState !== 1 && prevState > 0) {
           return prevState - 1;
@@ -40,6 +44,7 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
         if (prevState !== 5 && prevState < 5) {
           return prevState + 1;
         }
+        console.log('e.deltay Y false');
         return 5;
       }
 
@@ -59,28 +64,33 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       switch (parseInt(value, 10)) {
         case 5:
           issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
+          issuesContainer.style.transition = 'all 0.7s linear';
           console.log(5);
           break;
         case 4:
           issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight}px, 0)`;
+          issuesContainer.style.transition = 'all 0.7s linear';
           console.log(4);
           break;
         case 3:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 2
           }px, 0)`;
+          issuesContainer.style.transition = 'all 0.7s linear';
           console.log(3);
           break;
         case 2:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 3
           }px, 0)`;
+          issuesContainer.style.transition = 'all 0.7s linear';
           console.log(2);
           break;
         case 1:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 4
           }px, 0)`;
+          issuesContainer.style.transition = 'all 0.7s linear';
           console.log(1);
           break;
         default:
@@ -95,24 +105,32 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
         case 4:
           issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight}px, 0)`;
           setHash(4);
+          issuesContainer.style.transition = 'all 0.7s linear';
+
           break;
         case 3:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 2
           }px, 0)`;
           setHash(3);
+          issuesContainer.style.transition = 'all 0.7s linear';
+
           break;
         case 2:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 3
           }px, 0)`;
           setHash(2);
+          issuesContainer.style.transition = 'all 0.7s linear';
+
           break;
         case 1:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 4
           }px, 0)`;
           setHash(1);
+          issuesContainer.style.transition = 'all 0.7s linear';
+
           break;
         default:
           break;
@@ -124,23 +142,27 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       switch (value) {
         case 5:
           issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
+          issuesContainer.style.transition = 'all 0.7s linear';
+
           setHash(5);
-          console.log('Hi');
           break;
         case 4:
           issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight}px, 0)`;
+          issuesContainer.style.transition = 'all 0.7s linear';
           setHash(4);
           break;
         case 3:
           issuesContainer.style.transform = `translate3d(0, ${
             issue.clientHeight - issue.clientHeight * 3
           }px, 0)`;
+          issuesContainer.style.transition = 'all 0.7s linear';
           setHash(3);
           break;
         case 2:
           issuesContainer.style.transform = `translate3d(0, ${
             issue.clientHeight - issue.clientHeight * 4
           }px, 0)`;
+          issuesContainer.style.transition = 'all 0.7s linear';
           setHash(2);
           break;
         default:
@@ -149,16 +171,11 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
     }
   };
 
-  const isMediaQuery = (pixels) => {
-    const x = window.matchMedia(`(max-width: ${pixels}px)`);
-    return x.matches;
-  };
-
   useEffect(() => {
     const debounceWheel = _.debounce(wheelHandler, 200);
 
     if (!isMediaQuery(1000)) {
-      console.log('true media query 1000');
+      console.log('false media query 1000');
       window.addEventListener('wheel', debounceWheel);
 
       const bookmarks = document.querySelectorAll('.bookmarks > li');
@@ -178,12 +195,101 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
     window.addEventListener(
       'resize',
       _.debounce(() => {
+        // const issue5 = document.querySelector('.issue5');
+        const issue4 = document.querySelector('.issue4');
+        const issue3 = document.querySelector('.issue3');
+        const issue2 = document.querySelector('.issue2');
+        const issue1 = document.querySelector('.issue1');
+        const issuesContainer = document.querySelector('.issues-container');
+
+        console.log(scrollCountRef.current);
         if (isMediaQuery(1000)) {
-          document.querySelector(`.issue${scrollCount}`).scrollIntoView();
-          console.log(scrollCount);
+          issuesContainer.style.transition = 'none';
+          issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
+          document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
+          console.log('RESIZE 1', scrollCountRef.current);
           window.removeEventListener('wheel', debounceWheel);
+          issuesContainer.classList.add('disabled-wheel');
         } else {
-          document.querySelector(`.issue${scrollCount}`).scrollIntoView();
+          switch (scrollCountRef.current) {
+            case 5:
+              document.querySelector(`.issue${scrollCount}`).scrollIntoView();
+              issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
+              console.log(555555);
+              break;
+            case 4:
+              document.querySelector(`.issue${scrollCount}`).scrollIntoView();
+              issuesContainer.style.transform = `translate3d(0, -${issue2.clientHeight}px, 0)`;
+              console.log(444444);
+              break;
+            case 3:
+              document.querySelector(`.issue${scrollCount}`).scrollIntoView();
+              issuesContainer.style.transform = `translate3d(0, -${
+                issue2.clientHeight * 2
+              }px, 0)`;
+              console.log(333333);
+              break;
+            case 2:
+              document.querySelector(`.issue${scrollCount}`).scrollIntoView();
+              issuesContainer.style.transform = `translate3d(0, -${
+                issue2.clientHeight * 3
+              }px, 0)`;
+              console.log(222222);
+              break;
+            case 1:
+              document.querySelector(`.issue${scrollCount}`).scrollIntoView();
+              issuesContainer.style.transform = `translate3d(0, -${
+                issue2.clientHeight * 4
+              }px, 0)`;
+              console.log(111111);
+              break;
+            default:
+              break;
+          }
+
+          if ((issuesContainer?.classList[0] === 'disabled-wheel' || issuesContainer?.classList[1] === 'disabled-wheel') && !isMediaQuery(1000)) {
+            window.addEventListener('wheel', debounceWheel);
+            issuesContainer.classList.remove('disabled-wheel');
+          }
+          console.log(issuesContainer.classList);
+          // document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
+          // switch (scrollCountRef.current) {
+          //   case 5:
+          //     // issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
+          //     // console.log(5);
+          //     document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
+          //     break;
+          //   case 4:
+          //     // issuesContainer.style.transform =
+          // `translate3d(0, -${issue4.clientHeight}px, 0)`;
+          //     // console.log(4);
+          //     document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
+          //     break;
+          //   case 3:
+          //     // issuesContainer.style.transform = `translate3d(0, -${
+          //     // issue3.clientHeight * 2
+          //     // }px, 0)`;
+          //     document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
+          //     console.log(3);
+          //     break;
+          //   case 2:
+          //     // issuesContainer.style.transform = `translate3d(0, -${
+          //     // issue2.clientHeight * 3;
+          //     // }px, 0)`;
+          //     document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
+          //     console.log(2);
+          //     break;
+          //   case 1:
+          //     // issuesContainer.style.transform = `translate3d(0, -${
+          //     // issue1.clientHeight * 4
+          //     // }px, 0)`;
+          //     document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
+          //     console.log(1);
+          //     break;
+          //   default:
+          //     break;
+          // }
+          console.log('RESIZE 2', scrollCountRef.current);
         }
       }, 200),
     );
@@ -203,34 +309,36 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
   useEffect(() => console.log(scrollCount), [scrollCount]);
 
   useEffect(() => {
-    switch (scrollCount) {
-      case 5:
-        document.body.style.background = '#00c1b5';
-        translateHandler(5);
-        bookmarkHandler(5);
-        break;
-      case 4:
-        document.body.style.background = '#ff651a';
-        translateHandler(4);
-        bookmarkHandler(4);
-        break;
-      case 3:
-        document.body.style.background = ' #ffbe00';
-        translateHandler(3);
-        bookmarkHandler(3);
-        break;
-      case 2:
-        document.body.style.background = '#1d3fbb';
-        translateHandler(2);
-        bookmarkHandler(2);
-        break;
-      case 1:
-        document.body.style.background = '#e30512';
-        translateHandler(1);
-        bookmarkHandler(1);
-        break;
-      default:
-        break;
+    if (!isMediaQuery(1000)) {
+      switch (scrollCount) {
+        case 5:
+          document.body.style.background = '#00c1b5';
+          translateHandler(5);
+          bookmarkHandler(5);
+          break;
+        case 4:
+          document.body.style.background = '#ff651a';
+          translateHandler(4);
+          bookmarkHandler(4);
+          break;
+        case 3:
+          document.body.style.background = ' #ffbe00';
+          translateHandler(3);
+          bookmarkHandler(3);
+          break;
+        case 2:
+          document.body.style.background = '#1d3fbb';
+          translateHandler(2);
+          bookmarkHandler(2);
+          break;
+        case 1:
+          document.body.style.background = '#e30512';
+          translateHandler(1);
+          bookmarkHandler(1);
+          break;
+        default:
+          break;
+      }
     }
     // console.log(scrollCount);
   }, [scrollCount]);
@@ -273,7 +381,7 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
           console.log('issue2 media q');
           document.querySelector('.issue2').scrollIntoView();
         } else {
-          translateHandler(3, true);
+          translateHandler(2, true);
         }
         bookmarkHandler(2);
         break;

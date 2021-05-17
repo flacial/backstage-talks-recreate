@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef } from 'react';
 import './issues.style.sass';
@@ -45,10 +47,6 @@ const isScrolledIntoView = (el, firstValue, secondValue, isNeed) => {
     return elemTop < window.innerHeight
     && elemBottom >= 0 && elemTop <= -220 && elemTop >= -270;
   }
-  // return elemTop < window.innerHeight
-  //  && elemBottom >= 0 && window.innerHeight - Math.abs(elemTop) >= firstValue
-  //  && window.innerHeight - elemTop <= secondValue;
-
   return (elemTop <= 350 && elemTop >= -20);
 };
 
@@ -124,21 +122,6 @@ const Issues = ({ scrollCount, setScrollCount }) => {
 
   useEffect(() => {
     document.addEventListener('scroll', _.debounce(() => {
-      // // Get the H1 heading
-      // const issue5 = document.querySelector('.issue5');
-
-      // // Get it's position in the viewport
-      // const bounding = issue5.getBoundingClientRect();
-
-      // const issue4 = document.querySelector('.issue4');
-
-      // // Get it's position in the viewport
-      // const bounding2 = issue4.getBoundingClientRect();
-
-      // // Log the results
-      // // console.log('issue5: ', bounding);
-      // // console.log('issue4: ', bounding2);
-      // // console.log(document.documentElement.clientHeight);
       changeIssueBackground();
     }, 200));
   }, []);
