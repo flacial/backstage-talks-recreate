@@ -196,10 +196,10 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       'resize',
       _.debounce(() => {
         // const issue5 = document.querySelector('.issue5');
-        const issue4 = document.querySelector('.issue4');
-        const issue3 = document.querySelector('.issue3');
+        // const issue4 = document.querySelector('.issue4');
+        // const issue3 = document.querySelector('.issue3');
         const issue2 = document.querySelector('.issue2');
-        const issue1 = document.querySelector('.issue1');
+        // const issue1 = document.querySelector('.issue1');
         const issuesContainer = document.querySelector('.issues-container');
 
         console.log(scrollCountRef.current);
