@@ -384,7 +384,7 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
         <a href="#" className="policy">
           Privacy Policy
         </a>
-        <a className="contact-link" href="info@backstagetalks.com">
+        <a className="contact-link" href="#">
           Contact
         </a>
       </div>
