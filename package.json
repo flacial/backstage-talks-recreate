@@ -15,7 +15,8 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "redux-logger": "^3.0.6",
-    "sass": "^1.32.12"
+    "sass": "^1.32.12",
+    "scroll-speed": "^1.0.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.5",

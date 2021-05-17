@@ -7,7 +7,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import './footer.style.sass';
 import _ from 'lodash';
 import { withRouter } from 'react-router';
-import { isMediaQuery } from '../../utils/isMediaQuery';
+import isMediaQuery from '../../utils/isMediaQuery';
 
 const Footer = ({ history, scrollCount, setScrollCount }) => {
   // eslint-disable-next-line no-unused-vars
@@ -21,6 +21,8 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
   const bm3 = useRef(null);
   const bm4 = useRef(null);
   const bm5 = useRef(null);
+
+  const bookmarks = document.querySelectorAll('.bookmarks > li');
 
   const scrollCountRef = useRef({});
   scrollCountRef.current = scrollCount;
@@ -56,41 +58,53 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
     window.history.pushState('', '', `#issue${hash}`);
   };
 
+  const bookmarkColorChanger = (num) => {
+    bookmarks.forEach((ele) => {
+      console.log(ele.children[0].hash[ele.children[0].hash.length - 1], `${num}`);
+      if (ele.children[0].hash[ele.children[0].hash.length - 1] !== `${num}`) {
+        ele.children[0].style.textShadow = 'inherit';
+      } else {
+        ele.children[0].style.textShadow = '-0.8px 0 0';
+      }
+    });
+  };
+
   const translateHandler = (value, isLink) => {
     const issue = document.querySelector(`.issue${value}`);
     const issuesContainer = document.querySelector('.issues-container');
+    const transition = () => { issuesContainer.style.transition = 'all 0.7s ease'; };
 
     if (isLink) {
       switch (parseInt(value, 10)) {
         case 5:
           issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
-          issuesContainer.style.transition = 'all 0.7s linear';
+          transition();
           console.log(5);
           break;
         case 4:
           issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight}px, 0)`;
-          issuesContainer.style.transition = 'all 0.7s linear';
+          transition();
           console.log(4);
           break;
         case 3:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 2
           }px, 0)`;
-          issuesContainer.style.transition = 'all 0.7s linear';
+          transition();
           console.log(3);
           break;
         case 2:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 3
           }px, 0)`;
-          issuesContainer.style.transition = 'all 0.7s linear';
+          transition();
           console.log(2);
           break;
         case 1:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 4
           }px, 0)`;
-          issuesContainer.style.transition = 'all 0.7s linear';
+          transition();
           console.log(1);
           break;
         default:
@@ -105,32 +119,32 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
         case 4:
           issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight}px, 0)`;
           setHash(4);
-          issuesContainer.style.transition = 'all 0.7s linear';
-
+          transition();
+          bookmarkColorChanger(4);
           break;
         case 3:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 2
           }px, 0)`;
           setHash(3);
-          issuesContainer.style.transition = 'all 0.7s linear';
-
+          transition();
+          bookmarkColorChanger(3);
           break;
         case 2:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 3
           }px, 0)`;
           setHash(2);
-          issuesContainer.style.transition = 'all 0.7s linear';
-
+          transition();
+          bookmarkColorChanger(2);
           break;
         case 1:
           issuesContainer.style.transform = `translate3d(0, -${
             issue.clientHeight * 4
           }px, 0)`;
           setHash(1);
-          issuesContainer.style.transition = 'all 0.7s linear';
-
+          transition();
+          bookmarkColorChanger(1);
           break;
         default:
           break;
@@ -142,27 +156,30 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       switch (value) {
         case 5:
           issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
-          issuesContainer.style.transition = 'all 0.7s linear';
-
+          transition();
+          bookmarkColorChanger(5);
           setHash(5);
           break;
         case 4:
           issuesContainer.style.transform = `translate3d(0, -${issue.clientHeight}px, 0)`;
-          issuesContainer.style.transition = 'all 0.7s linear';
+          transition();
+          bookmarkColorChanger(4);
           setHash(4);
           break;
         case 3:
           issuesContainer.style.transform = `translate3d(0, ${
             issue.clientHeight - issue.clientHeight * 3
           }px, 0)`;
-          issuesContainer.style.transition = 'all 0.7s linear';
+          transition();
+          bookmarkColorChanger(3);
           setHash(3);
           break;
         case 2:
           issuesContainer.style.transform = `translate3d(0, ${
             issue.clientHeight - issue.clientHeight * 4
           }px, 0)`;
-          issuesContainer.style.transition = 'all 0.7s linear';
+          transition();
+          bookmarkColorChanger(2);
           setHash(2);
           break;
         default:
@@ -171,17 +188,33 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
     }
   };
 
+  // let debounceTimeVar = true;
+  // const debounceTime = () => {
+  //   console.log('debounceTimer: ', debounceTimeVar);
+  //   if (debounceTimeVar) {
+  //     console.log('debounceTimer true: ', debounceTimeVar);
+  //     debounceTimeVar = false;
+  //     return 100;
+  //   }
+  //   console.log('debounceTimer false: ', debounceTimeVar);
+  //   debounceTimeVar = true;
+  //   return 200;
+  // };
+
+  const WindowWidth = window.innerWidth;
+
   useEffect(() => {
-    const debounceWheel = _.debounce(wheelHandler, 200);
+    const debounceWheel = _.throttle(wheelHandler, 600, {
+      leading: true,
+      trailing: false,
+    });
 
     if (!isMediaQuery(1000)) {
-      console.log('false media query 1000');
       window.addEventListener('wheel', debounceWheel);
 
-      const bookmarks = document.querySelectorAll('.bookmarks > li');
       bookmarks.forEach((el) => el.addEventListener('click', (e) => {
         e.preventDefault();
-        e.target.style.textShadow = '-0.8px 0 0px';
+        e.target.style.textShadow = '-0.8px 0 0';
         bookmarks.forEach((ele) => {
           if (ele.children[0].hash !== e.target.hash) {
             ele.children[0].style.textShadow = 'inherit';
@@ -195,21 +228,19 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
     window.addEventListener(
       'resize',
       _.debounce(() => {
-        // const issue5 = document.querySelector('.issue5');
-        // const issue4 = document.querySelector('.issue4');
-        // const issue3 = document.querySelector('.issue3');
         const issue2 = document.querySelector('.issue2');
-        // const issue1 = document.querySelector('.issue1');
         const issuesContainer = document.querySelector('.issues-container');
 
         console.log(scrollCountRef.current);
         if (isMediaQuery(1000)) {
-          issuesContainer.style.transition = 'none';
-          issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
-          document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
-          console.log('RESIZE 1', scrollCountRef.current);
-          window.removeEventListener('wheel', debounceWheel);
-          issuesContainer.classList.add('disabled-wheel');
+          if (WindowWidth !== window.innerWidth) {
+            issuesContainer.style.transition = 'none';
+            issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
+            document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
+            alert('RESIZE 1', scrollCountRef.current);
+            window.removeEventListener('wheel', debounceWheel);
+            issuesContainer.classList.add('disabled-wheel');
+          }
         } else {
           switch (scrollCountRef.current) {
             case 5:
@@ -251,59 +282,11 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
             window.addEventListener('wheel', debounceWheel);
             issuesContainer.classList.remove('disabled-wheel');
           }
-          console.log(issuesContainer.classList);
-          // document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
-          // switch (scrollCountRef.current) {
-          //   case 5:
-          //     // issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
-          //     // console.log(5);
-          //     document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
-          //     break;
-          //   case 4:
-          //     // issuesContainer.style.transform =
-          // `translate3d(0, -${issue4.clientHeight}px, 0)`;
-          //     // console.log(4);
-          //     document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
-          //     break;
-          //   case 3:
-          //     // issuesContainer.style.transform = `translate3d(0, -${
-          //     // issue3.clientHeight * 2
-          //     // }px, 0)`;
-          //     document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
-          //     console.log(3);
-          //     break;
-          //   case 2:
-          //     // issuesContainer.style.transform = `translate3d(0, -${
-          //     // issue2.clientHeight * 3;
-          //     // }px, 0)`;
-          //     document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
-          //     console.log(2);
-          //     break;
-          //   case 1:
-          //     // issuesContainer.style.transform = `translate3d(0, -${
-          //     // issue1.clientHeight * 4
-          //     // }px, 0)`;
-          //     document.querySelector(`.issue${scrollCountRef.current}`).scrollIntoView();
-          //     console.log(1);
-          //     break;
-          //   default:
-          //     break;
-          // }
+
           console.log('RESIZE 2', scrollCountRef.current);
         }
       }, 200),
     );
-
-    // window.addEventListener('scroll', _.debounce(() => {
-    //   // const scrollPos = window.scrollY ||
-    //   // window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
-    //   // const value = Math.abs(parseInt(scrollPos -
-    //   //  (document.querySelector('.issue5').clientHeight / 2), 10));
-    //   // console.log(Math.abs(parseInt(scrollPos -
-    //   //  (document.querySelector('.issue5').clientHeight / 2), 10)));
-    //   // console.log('scrollPos', scrollPos);
-    //   // console.log(value <= 20 && value > 15);
-    // }, 200));
   }, []);
 
   useEffect(() => console.log(scrollCount), [scrollCount]);
@@ -419,27 +402,27 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       </div>
       <ul className="bookmarks">
         <li>
-          <a href="#issue5" ref={bm5} onClick={() => bookmarkHandler(5)}>
+          <a href="#issue5" id="issue5-link" ref={bm5} onClick={() => bookmarkHandler(5)}>
             Issue #5
           </a>
         </li>
         <li>
-          <a href="#issue4" ref={bm4} onClick={() => bookmarkHandler(4)}>
+          <a href="#issue4" id="issue4-link" ref={bm4} onClick={() => bookmarkHandler(4)}>
             Issue #4
           </a>
         </li>
         <li>
-          <a href="#issue3" ref={bm3} onClick={() => bookmarkHandler(3)}>
+          <a href="#issue3" id="issue3-link" ref={bm3} onClick={() => bookmarkHandler(3)}>
             Issue #3
           </a>
         </li>
         <li>
-          <a href="#issue2" ref={bm2} onClick={() => bookmarkHandler(2)}>
+          <a href="#issue2" id="issue2-link" ref={bm2} onClick={() => bookmarkHandler(2)}>
             Issue #2
           </a>
         </li>
         <li>
-          <a href="#issue1" ref={bm1} onClick={() => bookmarkHandler(1)}>
+          <a href="#issue1" id="issue1-link" ref={bm1} onClick={() => bookmarkHandler(1)}>
             Issue #1
           </a>
         </li>

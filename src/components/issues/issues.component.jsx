@@ -33,29 +33,29 @@ const issuesReducer = (title, imgUrl, num, ref) => (
   </div>
 );
 
-const isScrolledIntoView = (el, firstValue, secondValue, isNeed) => {
-  const elc = el.current;
-  console.log(elc);
-  const rect = elc.getBoundingClientRect();
-  const elemTop = rect.top;
-  const elemBottom = rect.bottom;
-  console.log(`Top: ${elemTop}`, `Bottom: ${elemBottom}`, `Window: ${window.innerHeight}`);
-
-  // 355
-
-  if (isNeed) {
-    return elemTop < window.innerHeight
-    && elemBottom >= 0 && elemTop <= -220 && elemTop >= -270;
-  }
-  return (elemTop <= 350 && elemTop >= -20);
-};
-
 const Issues = ({ scrollCount, setScrollCount }) => {
   const issue5Ref = useRef();
   const issue4Ref = useRef();
   const issue3Ref = useRef();
   const issue2Ref = useRef();
   const issue1Ref = useRef();
+
+  const isScrolledIntoView = (el, firstValue, secondValue, isNeed) => {
+    const elc = el.current;
+    console.log(elc);
+    const rect = elc.getBoundingClientRect();
+    const elemTop = rect.top;
+    const elemBottom = rect.bottom;
+    console.log(`Top: ${elemTop}`, `Bottom: ${elemBottom}`, `Window: ${window.innerHeight}`);
+
+    // 355
+
+    if (isNeed) {
+      console.log((elemBottom >= 351 && elemBottom <= elc.clientHeight), '\n', elemBottom, elc.clientHeight);
+      return (elemBottom >= 351 && elemBottom <= elc.clientHeight);
+    }
+    return (elemTop <= 350 && elemTop >= -20);
+  };
 
   const changeIssueBackground = () => {
     switch (true) {
@@ -93,37 +93,37 @@ const Issues = ({ scrollCount, setScrollCount }) => {
         break;
     }
 
-    // switch (true) {
-    //   case isScrolledIntoView(issue5Ref, 900, 930, true):
-    //     document.body.style.background = '#00c1b5';
-    //     console.log('worked 5 2');
-    //     break;
-    //   // case isScrolledIntoView(issue4Ref, 900, 930, true):
-    //   //   document.body.style.background = '#ff651a';
-    //   //   console.log('worked 4 2');
-    //   //   break;
-    //   // case isScrolledIntoView(issue3Ref, 900, 930, true):
-    //   //   document.body.style.background = ' #ffbe00';
-    //   //   console.log('worked 3 2');
-    //   //   break;
-    //   // case isScrolledIntoView(issue2Ref, 900, 930, true):
-    //   //   document.body.style.background = '#1d3fbb';
-    //   //   console.log('worked 2 2');
-    //   //   break;
-    //   // case isScrolledIntoView(issue1Ref, 900, 930, true):
-    //   //   document.body.style.background = '#e30512';
-    //   //   console.log('worked 1 2');
-    //   //   break;
-    //   default:
-    //     console.log('Nothing');
-    //     break;
-    // }
+    switch (true) {
+      case isScrolledIntoView(issue5Ref, 900, 930, true):
+        document.body.style.background = '#00c1b5';
+        console.log('worked 5 2');
+        break;
+      case isScrolledIntoView(issue4Ref, 900, 930, true):
+        document.body.style.background = '#ff651a';
+        console.log('worked 4 2');
+        break;
+      case isScrolledIntoView(issue3Ref, 900, 930, true):
+        document.body.style.background = ' #ffbe00';
+        console.log('worked 3 2');
+        break;
+      case isScrolledIntoView(issue2Ref, 900, 930, true):
+        document.body.style.background = '#1d3fbb';
+        console.log('worked 2 2');
+        break;
+      case isScrolledIntoView(issue1Ref, 900, 930, true):
+        document.body.style.background = '#e30512';
+        console.log('worked 1 2');
+        break;
+      default:
+        console.log('Nothing');
+        break;
+    }
   };
 
   useEffect(() => {
     document.addEventListener('scroll', _.debounce(() => {
       changeIssueBackground();
-    }, 200));
+    }, 100));
   }, []);
 
   useEffect(() => {

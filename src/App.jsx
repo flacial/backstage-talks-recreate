@@ -12,7 +12,7 @@ import Issues from './components/issues/issues.component';
 const App = () => {
   const [scrollCount, setScrollCount] = useState(5);
 
-  const setScroll = (state) => { setScrollCount(state); console.log('app.js: ', state); };
+  const setScroll = (state) => { setScrollCount(state); };
 
   return (
     <Provider store={store}>

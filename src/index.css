@@ -10,7 +10,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: rgb(0, 197, 197);
-  transition: background-color 0.8s linear;
+  transition: background-color 0.5s linear 200ms;
 }
 
 code {
