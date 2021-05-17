@@ -1,5 +1,5 @@
-#Backstage talks recreate
-##The 7th project from frontendpractice.com
+# Backstage talks recreate
+## The 7th project from frontendpractice.com
 
 ## Available Scripts
 
