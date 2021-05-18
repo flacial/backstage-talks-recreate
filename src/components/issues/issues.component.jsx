@@ -12,7 +12,7 @@ import issue1 from '../../assets/backstagetalks_cover2016_n.webp';
 // eslint-disable-next-line no-unused-vars
 const issuesReducer = (title, imgUrl, num, ref) => (
   <div className={`issue issue${num}`} ref={ref}>
-    <img src={imgUrl} alt="Issue" />
+    <img width="423" height="536" src={imgUrl} alt="Issue" />
     <ul className="issue-detail">
       <li>
         { title }
