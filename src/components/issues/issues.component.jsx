@@ -4,11 +4,11 @@
 import React, { useEffect, useRef } from 'react';
 import './issues.style.sass';
 import _ from 'lodash';
-import issue5 from '../../assets/backstagetalks_cover_issue_5.png';
-import issue4 from '../../assets/backstagetalks_cover_issue_4.png';
-import issue3 from '../../assets/backstagetalks_cover_issue_3.png';
-import issue2 from '../../assets/backstagetalks_cover2017.png';
-import issue1 from '../../assets/backstagetalks_cover2016_n.png';
+import issue5 from '../../assets/backstagetalks_cover_issue_5.webp';
+import issue4 from '../../assets/backstagetalks_cover_issue_4.webp';
+import issue3 from '../../assets/backstagetalks_cover_issue_3.webp';
+import issue2 from '../../assets/backstagetalks_cover2017.webp';
+import issue1 from '../../assets/backstagetalks_cover2016_n.webp';
 // eslint-disable-next-line no-unused-vars
 const issuesReducer = (title, imgUrl, num, ref) => (
   <div className={`issue issue${num}`} ref={ref}>
