@@ -107,7 +107,7 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
     }
 
     if (deltaY > 0) {
-      console.log('Down');
+      // console.log('Down');
       switch (value) {
         case 5:
           issuesContainer.style.transform = 'translate3d(0, 0, 0)';
@@ -151,7 +151,7 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
     }
 
     if (deltaY < 0) {
-      console.log('Up');
+      // console.log('Up');
       switch (value) {
         case 5:
           issuesContainer.style.transform = 'translate3d(0, 0, 0)';
