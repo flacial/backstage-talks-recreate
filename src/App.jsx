@@ -17,7 +17,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <Header />
-      <Issues scrollCount={scrollCount} setScrollCount={setScroll} />
+      <Issues setScrollCount={setScroll} />
       <Footer scrollCount={scrollCount} setScrollCount={setScroll} />
     </Provider>
   );

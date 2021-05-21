@@ -33,7 +33,7 @@ const issuesReducer = (title, imgUrl, num, ref) => (
   </div>
 );
 
-const Issues = ({ scrollCount, setScrollCount }) => {
+const Issues = ({ setScrollCount }) => {
   const issue5Ref = useRef();
   const issue4Ref = useRef();
   const issue3Ref = useRef();
@@ -42,20 +42,20 @@ const Issues = ({ scrollCount, setScrollCount }) => {
 
   const isScrolledIntoView = (el, isNeed) => {
     const elc = el.current || el;
-    console.log(elc);
+    // console.log(elc);
     const rect = elc.getBoundingClientRect();
     const elemTop = rect.top;
     const elemBottom = rect.bottom;
-    console.log(`Top: ${elemTop}`, `Bottom: ${elemBottom}`, `Window: ${window.innerHeight}`);
+    // console.log(`Top: ${elemTop}`, `Bottom: ${elemBottom}`, `Window: ${window.innerHeight}`);
 
     // 355
 
     if (isNeed) {
-      console.log((elemBottom >= 351 && elemBottom <= elc.clientHeight),
-        elemBottom, elc.clientHeight);
+      // console.log((elemBottom >= 351 && elemBottom <= elc.clientHeight),
+      // elemBottom, elc.clientHeight);
       return (elemBottom >= 351 && elemBottom <= elc.clientHeight);
     }
-    console.log('Bottommmmmmmmm:', elemTop <= 350 && elemTop >= -20);
+    // console.log('Bottommmmmmmmm:', elemTop <= 350 && elemTop >= -20);
     return (elemTop <= 350 && elemTop >= -20);
   };
 
@@ -137,9 +137,9 @@ const Issues = ({ scrollCount, setScrollCount }) => {
     }, 50));
   }, []);
 
-  useEffect(() => {
-    console.log(scrollCount);
-  }, [scrollCount]);
+  // useEffect(() => {
+  //   console.log(scrollCount);
+  // }, [scrollCount]);
 
   return (
     <div className="issues-container">
