@@ -42,20 +42,16 @@ const Issues = ({ setScrollCount }) => {
 
   const isScrolledIntoView = (el, isNeed) => {
     const elc = el.current || el;
-    // console.log(elc);
     const rect = elc.getBoundingClientRect();
     const elemTop = rect.top;
     const elemBottom = rect.bottom;
-    // console.log(`Top: ${elemTop}`, `Bottom: ${elemBottom}`, `Window: ${window.innerHeight}`);
 
     // 355
 
     if (isNeed) {
-      // console.log((elemBottom >= 351 && elemBottom <= elc.clientHeight),
       // elemBottom, elc.clientHeight);
       return (elemBottom >= 351 && elemBottom <= elc.clientHeight);
     }
-    // console.log('Bottommmmmmmmm:', elemTop <= 350 && elemTop >= -20);
     return (elemTop <= 350 && elemTop >= -20);
   };
 
@@ -63,70 +59,54 @@ const Issues = ({ setScrollCount }) => {
     switch (true) {
       case isScrolledIntoView(issue5Ref):
         document.body.style.background = '#00c1b5';
-        // document.body.style.background = '#ff651a';
         setScrollCount(5);
-        // console.log('worked 5');
         break;
       case isScrolledIntoView(issue4Ref):
         document.body.style.background = '#ff651a';
-        // document.body.style.background = ' #ffbe00';
         setScrollCount(4);
-        // console.log('worked 4');
         break;
       case isScrolledIntoView(issue3Ref):
         document.body.style.background = ' #ffbe00';
         // document.body.style.background = '#1d3fbb';
         setScrollCount(3);
-        // console.log('worked 3');
         break;
       case isScrolledIntoView(issue2Ref):
         document.body.style.background = '#1d3fbb';
         // document.body.style.background = '#e30512';
         setScrollCount(2);
-        // console.log('worked 2');
         break;
       case isScrolledIntoView(issue1Ref):
         document.body.style.background = '#e30512';
         setScrollCount(1);
-        // console.log('worked 1');
         break;
       case isScrolledIntoView(document.querySelector('.info')):
         document.body.style.background = '#e30512';
         setScrollCount(1);
-        // console.log('worked 1');
         break;
       default:
-        // console.log('Nothing');
         break;
     }
 
     switch (true) {
       case isScrolledIntoView(issue5Ref, true):
         document.body.style.background = '#00c1b5';
-        // console.log('worked 5 2');
         break;
       case isScrolledIntoView(issue4Ref, true):
         document.body.style.background = '#ff651a';
-        // console.log('worked 4 2');
         break;
       case isScrolledIntoView(issue3Ref, true):
         document.body.style.background = ' #ffbe00';
-        // console.log('worked 3 2');
         break;
       case isScrolledIntoView(issue2Ref, true):
         document.body.style.background = '#1d3fbb';
-        // console.log('worked 2 2');
         break;
       case isScrolledIntoView(issue1Ref, true):
         document.body.style.background = '#e30512';
-        // console.log('worked 1 2');
         break;
       case isScrolledIntoView(document.querySelector('.info'), true):
         document.body.style.background = '#e30512';
-        // console.log('worked 1 2');
         break;
       default:
-        // console.log('Nothing');
         break;
     }
   };
@@ -138,7 +118,6 @@ const Issues = ({ setScrollCount }) => {
   }, []);
 
   // useEffect(() => {
-  //   console.log(scrollCount);
   // }, [scrollCount]);
 
   return (

@@ -107,7 +107,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
     }
 
     if (deltaY > 0) {
-      // console.log('Down');
       switch (value) {
         case 5:
           issuesContainer.style.transform = 'translate3d(0, 0, 0)';
@@ -151,7 +150,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
     }
 
     if (deltaY < 0) {
-      // console.log('Up');
       switch (value) {
         case 5:
           issuesContainer.style.transform = 'translate3d(0, 0, 0)';
@@ -205,7 +203,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       window.addEventListener('wheel', debounceWheel);
 
       // bookmarks.forEach((el) => el.addEventListener('click', (e) => {
-      //   console.log('bookmark event');
       //   e.preventDefault();
       //   e.target.style.textShadow = '-0.8px 0 0';
       //   bookmarks.forEach((ele) => {
@@ -214,7 +211,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
       //     }
       //   });
       //   translateHandler(e.target.hash[e.target.hash.length - 1], true);
-      //   console.log('TranslateHandler ran');
       //   window.history.pushState('', '', e.target.hash);
       // }));
     } else {
@@ -240,33 +236,28 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
             case 5:
               document.querySelector(`.issue${scrollCount}`).scrollIntoView();
               issuesContainer.style.transform = `translate3d(0, ${0}px, 0)`;
-              // console.log(555555);
               break;
             case 4:
               document.querySelector(`.issue${scrollCount}`).scrollIntoView();
               issuesContainer.style.transform = `translate3d(0, -${issue2.clientHeight}px, 0)`;
-              // console.log(444444);
               break;
             case 3:
               document.querySelector(`.issue${scrollCount}`).scrollIntoView();
               issuesContainer.style.transform = `translate3d(0, -${
                 issue2.clientHeight * 2
               }px, 0)`;
-              // console.log(333333);
               break;
             case 2:
               document.querySelector(`.issue${scrollCount}`).scrollIntoView();
               issuesContainer.style.transform = `translate3d(0, -${
                 issue2.clientHeight * 3
               }px, 0)`;
-              // console.log(222222);
               break;
             case 1:
               document.querySelector(`.issue${scrollCount}`).scrollIntoView();
               issuesContainer.style.transform = `translate3d(0, -${
                 issue2.clientHeight * 4
               }px, 0)`;
-              // console.log(111111);
               break;
             default:
               break;
@@ -313,7 +304,6 @@ const Footer = ({ history, scrollCount, setScrollCount }) => {
           break;
       }
     }
-    // console.log(scrollCount);
   }, [scrollCount]);
 
   useEffect(() => {
