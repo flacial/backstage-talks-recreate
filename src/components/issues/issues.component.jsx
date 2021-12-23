@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef } from 'react';
 import './issues.style.sass';
 import _ from 'lodash';
@@ -9,7 +6,7 @@ import issue4 from '../../assets/backstagetalks_cover_issue_4.webp';
 import issue3 from '../../assets/backstagetalks_cover_issue_3.webp';
 import issue2 from '../../assets/backstagetalks_cover2017.webp';
 import issue1 from '../../assets/backstagetalks_cover2016_n.webp';
-// eslint-disable-next-line no-unused-vars
+
 const issuesReducer = (title, imgUrl, num, ref) => (
   <div className={`issue issue${num}`} ref={ref}>
     <img width="423" height="536" src={imgUrl} alt="Issue" />
@@ -46,10 +43,7 @@ const Issues = ({ setScrollCount }) => {
     const elemTop = rect.top;
     const elemBottom = rect.bottom;
 
-    // 355
-
     if (isNeed) {
-      // elemBottom, elc.clientHeight);
       return (elemBottom >= 351 && elemBottom <= elc.clientHeight);
     }
     return (elemTop <= 350 && elemTop >= -20);
@@ -67,12 +61,10 @@ const Issues = ({ setScrollCount }) => {
         break;
       case isScrolledIntoView(issue3Ref):
         document.body.style.background = ' #ffbe00';
-        // document.body.style.background = '#1d3fbb';
         setScrollCount(3);
         break;
       case isScrolledIntoView(issue2Ref):
         document.body.style.background = '#1d3fbb';
-        // document.body.style.background = '#e30512';
         setScrollCount(2);
         break;
       case isScrolledIntoView(issue1Ref):
@@ -116,10 +108,7 @@ const Issues = ({ setScrollCount }) => {
       changeIssueBackground();
     }, 50));
   }, []);
-
-  // useEffect(() => {
-  // }, [scrollCount]);
-
+  
   return (
     <div className="issues-container">
       {issuesReducer('Issue #5', issue5, 5, issue5Ref)}
